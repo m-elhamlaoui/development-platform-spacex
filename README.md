@@ -1,7 +1,8 @@
 # SpaceX
 
 ### Requirements 
-you need JDK 17 to run it, node 20 is not a requirmen since gradle uses a local cached node in order to build Angular
+- you need JDK 17 to run it.
+- node 20 is not a requirement since gradle uses a local cached node in order to build Angular.
 ### HOW TO RUN
 
 ##### linux
