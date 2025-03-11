@@ -13,7 +13,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "./../Backend/src/main/resources/static/",
+            "outputPath": {
+              "base":"./../Backend/src/main/resources/static/",
+              "browser":""
+            },
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
