@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: Swagger SpaceX - OpenAPI 3.0
   description: |-
@@ -10,7 +10,7 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: https://127.0.0.1/api/v1
+  - url: http://127.0.0.1:8080/api/v1
 
 paths:
   /currentTravels:
@@ -24,25 +24,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    depart:
-                      type: string
-                      example: TRR
-                    arrive:
-                      type: string
-                      example: MRS
-                    dateDepart:
-                      type: string
-                      format: date
-                      example: 12/12/2023
-                    dateArrive:
-                      type: string
-                      format: date
-                      example: 02/03/2024
-                    percentage:
-                      type: integer
-                      example: 60
+                 $ref: "#/components/schemas/TravelDto"
   
   /searchTravel:
     post:
@@ -195,4 +177,19 @@ components:
         prix:
           type: integer
           example: 45212
-
+    TravelDto:
+      type: object
+      properties:
+        depart:
+          type: "string"
+        arrive:
+          type: "string"
+        dateDepart:
+          type: "string"
+          format: "date-time"
+        dateArrive:
+          type: "string"
+          format: "date-time"
+        percentage:
+          type: "integer"
+          format: "int32"
