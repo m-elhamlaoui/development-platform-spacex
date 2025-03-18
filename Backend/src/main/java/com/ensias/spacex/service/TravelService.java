@@ -24,10 +24,14 @@ public class TravelService {
 
     public List<TravelDto> getCurrentTravels() {
         List<Travel> travels = travelRepository.getCurrentTravelsAtDate(new Date()); // new Date will have the current Date
-
         return travels.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<Travel> getExploredTravels() {
+        return travelRepository.findAvailableTravels(new Date());
+
     }
 
     private TravelDto convertToDto(Travel travel) {
