@@ -1,5 +1,6 @@
 package com.ensias.spacex.service;
 
+import com.ensias.spacex.DTO.SearchRequestDto;
 import com.ensias.spacex.DTO.TravelDto;
 import com.ensias.spacex.Repositories.TravelRepository;
 import com.ensias.spacex.model.Travel;
@@ -45,5 +46,9 @@ public class TravelService {
         if (totalTime <= 0) return 0; // Prevent division by zero
         int percentage = (int) ((elapsedTime * 100) / totalTime);
         return Math.min(percentage, 100); // Cap at 100%
+    }
+
+    public List<Travel> searchForTravels(SearchRequestDto searchRequestDto) {
+        return travelRepository.searchForTravels(searchRequestDto.getDepart(),searchRequestDto.getArrive(),new Date());
     }
 }
