@@ -18,4 +18,7 @@ public interface TravelRepository extends JpaRepository <Travel,Long> {
 
     @Query("select t from Travel t where t.dateDepart > :now")
     List<Travel> findAvailableTravels(@Param("now") Date now);
+  
+    @Query(value = "select t from Travel t  where t.depart = :depart  and t.arrive = :arrive and t.dateArrivee > :date")
+    List<Travel> searchForTravels(@Param("depart")String depart,@Param("arrive")String arrive,@Param("date") Date date);
 }
