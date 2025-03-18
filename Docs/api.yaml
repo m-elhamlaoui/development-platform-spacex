@@ -1,0 +1,195 @@
+openapi: 3.1.0
+info:
+  title: Swagger SpaceX - OpenAPI 3.0
+  description: |-
+    This is a description of SpaceX api on the OpenAPI 3.0 specification.  You can find out more about
+    Swagger at [https://swagger.io](https://swagger.io).
+
+  version: 0.1.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://127.0.0.1:8080/api/v1
+
+paths:
+  /currentTravels:
+    get:
+      summary: Get current travels
+      responses:
+        '200':
+          description: A list of current travels
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: "#/components/schemas/TravelDto"
+  
+  /searchTravel:
+    post:
+      summary: Search for a travel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                depart:
+                  type: string
+                  example: MRC
+                arrive:
+                  type: string
+                  example: TRR
+      responses:
+        '200':
+          description: A list of available travels
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 125
+                    depart:
+                      type: string
+                      example: MRC
+                    arrive:
+                      type: string
+                      example: TRR
+                    dateDepart:
+                      type: string
+                      format: date
+                      example: 12/12/2023
+                    dateArrive:
+                      type: string
+                      format: date
+                      example: 06/06/2024
+                    prix:
+                      type: integer
+                      example: 45212
+
+  /exploreTravels:
+    get:
+      summary: Explore available travels
+      responses:
+        '200':
+          description: A list of travel options
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TravelItem'
+  
+  /addToBasket:
+    post:
+      summary: Add a travel to the basket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 125
+      responses:
+        '200':
+          description: Travel added to basket
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /removeFromBasket:
+    post:
+      summary: Remove a travel from the basket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 125
+      responses:
+        '200':
+          description: Travel removed from basket
+          content:
+            application/json:
+              schema:
+                type: object
+  
+  /getBasket:
+    get:
+      summary: Get the user's travel basket
+      responses:
+        '200':
+          description: A list of travels in the basket
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TravelItem'
+
+  /checkOut:
+    post:
+      summary: Checkout the travel basket
+      responses:
+        '200':
+          description: Checkout successful
+          content:
+            application/json:
+              schema:
+                type: object
+
+components:
+  schemas:
+    TravelItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 125
+        depart:
+          type: string
+          example: MRC
+        arrive:
+          type: string
+          example: TRR
+        dateDepart:
+          type: string
+          format: date
+          example: 12/12/2023
+        dateArrive:
+          type: string
+          format: date
+          example: 06/06/2024
+        prix:
+          type: integer
+          example: 45212
+    TravelDto:
+      type: object
+      properties:
+        depart:
+          type: "string"
+        arrive:
+          type: "string"
+        dateDepart:
+          type: "string"
+          format: "date-time"
+        dateArrive:
+          type: "string"
+          format: "date-time"
+        percentage:
+          type: "integer"
+          format: "int32"

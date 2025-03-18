@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# set PATH for executables
+PATH="$PWD/Frontend/.cache/nodejs/node-v20.15.0-linux-x64/bin":$PATH
+# set working dir
+wd=$(dirname $0)
+cd $wd
+cd ./Frontend
+node_modules/@angular/cli/bin/ng.js "$@"
+cd $wd
+#node "node/node_modules/npm/bin/npm-cli.js" "$@
+#$ chmod +x npm
