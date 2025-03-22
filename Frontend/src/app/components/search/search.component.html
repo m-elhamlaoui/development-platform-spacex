@@ -1,1 +1,39 @@
 <app-scene></app-scene>
+<div class="search-container">
+    <label>Départ</label>
+    <select [(ngModel)]="departure">
+        <option value="jupiter">Jupiter</option>
+        <option value="mars">Mars</option>
+        <option value="mercure">Mercure</option>
+        <option value="neptune">Neptune</option>
+        <option value="terre">Terre</option>
+        <option value="Uranus">Uranus</option>
+        <option value="venus">Vénus</option>
+    </select>
+    <label>Arrivé</label>
+    <select [(ngModel)]="arrive">
+        <option value="jupiter">Jupiter</option>
+        <option value="mars">Mars</option>
+        <option value="mercure">Mercure</option>
+        <option value="neptune">Neptune</option>
+        <option value="terre">Terre</option>
+        <option value="Uranus">Uranus</option>
+        <option value="venus">Vénus</option>
+    </select>
+    <button (click)="onSearch()">Rechercher</button>
+</div>
+
+<!-- to be changed-->
+
+@for (result of results; track result) {
+    <div>
+        <h3>Résultats :</h3>
+        <h4>{{ result.depart }} -----------> {{ result.arrive }}</h4>
+        <p><strong>prix :</strong> {{ result.prix }} € </p>
+        <p><strong>date de départ :</strong> {{ result.dateDepart }}</p>
+        <p><strong>Durée :</strong> {{ result.dateArrivee }}</p>
+    </div>
+} @empty {
+
+}
+
