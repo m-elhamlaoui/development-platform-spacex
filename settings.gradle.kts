@@ -4,5 +4,5 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = "Metis-Data-Explorer"
+rootProject.name = "SpaceX"
 include("Backend","Frontend")

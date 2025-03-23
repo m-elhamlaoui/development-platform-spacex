@@ -1,0 +1,44 @@
+@startuml
+' Define the Travel class
+class Travel {
+    +Long id
+    +String depart
+    +String arrive
+    +Date dateDepart
+    +Date dateArrivee
+    +Long prix
+    +Travel(String depart, String arrive, Date dateDepart, Date dateArrivee, Long prix)
+}
+
+' Define the TravelDto class
+class TravelDto {
+    +String depart
+    +String arrive
+    +Date dateDepart
+    +Date dateArrive
+    +int percentage
+    +TravelDto(String depart, String arrive, Date dateDepart, Date dateArrive, int percentage)
+}
+
+' Define the TravelService class
+class TravelService {
+    +List<TravelDto> getCurrentTravels()
+    -TravelDto convertToDto(Travel travel)
+    -int calculatePercentage(Travel travel)
+}
+
+' Define the TravelRepository class (Interface)
+class TravelRepository {
+    +List<Travel> getCurrentTravelsAtDate(Date now)
+}
+
+' Define the CurrentTravelsController class
+class CurrentTravelsController {
+    +List<TravelDto> getCurrentTravels()
+}
+
+' Relationships between classes
+TravelService --> TravelRepository : uses
+TravelService --> TravelDto : converts to
+CurrentTravelsController --> TravelService : calls
+@enduml
