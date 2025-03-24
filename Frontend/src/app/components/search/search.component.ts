@@ -5,6 +5,7 @@ import {SearchService} from "../../services/search.service";
 import {SearchReplyDto} from "../../DTO/searchReply.dto";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {SearchDto} from "../../DTO/search.dto";
+import {Planet} from "../../enums/planet.enum";
 
 @Component({
     selector: 'app-search',
@@ -23,14 +24,15 @@ export class SearchComponent {
     results: SearchReplyDto[] = [];
     departure: string = '';
     arrive: string = '';
+    planetOptions = Object.values(Planet);
     searchData: SearchDto = {
         depart: '',
         arrive: ''
     };
 
-
     onSearch() {
         if (this.departure === this.arrive) {
+            this.showSnackBar('Departure and arrival must be different', 'error');
             this.results = [];
             return;
         }
@@ -53,10 +55,10 @@ export class SearchComponent {
                         this.showSnackBar('This trip is not available.', 'warning');
                     }
                 },
-               /* (error) => {
+                (error) => {
                     this.results = [];
                     this.showSnackBar('An error occurred during the search.', 'error');
-                }*/
+                }
             );
         }
     }
