@@ -1,12 +1,12 @@
 package com.ensias.spacex.controllers;
 
 import com.ensias.spacex.DTO.BasketRequestDto;
-import com.ensias.spacex.DTO.TravelDto;
 import com.ensias.spacex.service.BasketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -19,15 +19,19 @@ public class BasketController {
         this.basketService = basketService;
     }
 
+    // POST /api/v1/addToBasket
     @PostMapping("/addToBasket")
-    public List<TravelDto> addToBasket(@RequestBody List<BasketRequestDto> basketRequests) {
-
-        return basketService.addToBasket(basketRequests);
+    public Map<String, Object> addToBasket(@RequestBody BasketRequestDto request) {
+        basketService.addToBasket(request);
+        //  renvoie un JSON vide ({}).
+        return Collections.emptyMap();
     }
 
+    // POST /api/v1/removeFromBasket
     @PostMapping("/removeFromBasket")
-    public List<TravelDto> removeFromBasket(@RequestBody List<BasketRequestDto> basketRequests) {
+    public Map<String, Object> removeFromBasket(@RequestBody BasketRequestDto request) {
+        basketService.removeFromBasket(request);
 
-        return basketService.removeFromBasket(basketRequests);
+        return Collections.emptyMap();
     }
 }

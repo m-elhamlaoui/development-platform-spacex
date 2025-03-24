@@ -28,9 +28,6 @@ public class Basket {
     }
 
 
-    //vider completement le panier
 
-    public void clear() {
-        travels.clear();// hadi optionnelle
-    }
+
 }
