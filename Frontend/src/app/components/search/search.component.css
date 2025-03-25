@@ -1,5 +1,4 @@
 app-scene {
-    position: fixed; /* Pour s'assurer qu'il couvre toute la fenêtre */
     top: 0;
     left: 0;
     width: 100vw;
