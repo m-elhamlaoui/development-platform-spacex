@@ -1,0 +1,42 @@
+.travel-card {
+    position: relative;
+    margin-bottom: 16px;
+    padding: 16px;
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.route {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.route .arrow {
+    margin: 0 8px;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.dates {
+    display: flex;
+    font-size: 0.9em;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.dates .arrow {
+    margin: 0 8px;
+}
+
+.action-buttons {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
