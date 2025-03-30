@@ -1,24 +1,20 @@
 <mat-card class="travel-card">
-    <div class="card-content">
-        <div class="route">
-            <span class="origin">{{origin}}</span>
-            <span class="arrow">→</span>
-            <span class="destination">{{destination}}</span>
-        </div>
-        <div class="price">{{price}}</div>
-    </div>
+    <mat-card-header>
+        <mat-card-title>{{ travel.depart }} → {{ travel.arrive }}</mat-card-title>
+        <mat-card-subtitle>
+            <span class="date">{{ travel.departureDate | date:'shortDate' }}</span>
+            <mat-icon>arrow_right_alt</mat-icon>
+            <span class="date">{{ travel.arrivalDate | date:'shortDate' }}</span>
+        </mat-card-subtitle>
+    </mat-card-header>
 
-    <div class="dates">
-        <span class="departure-date">{{departureDate}}</span>
-        <span class="arrow">→</span>
-        <span class="arrival-date">{{arrivalDate}}</span>
-    </div>
+    <mat-card-content>
+        <p class="price">{{ travel.price | currency }}</p>
+    </mat-card-content>
 
-    <!-- Action buttons -->
-    <div class="action-buttons">
-        <button *ngFor="let button of actionButtons" mat-icon-button [matTooltip]="button.tooltip || ''"
-            (click)="onButtonClick(button.action)">
-            <mat-icon>{{button.icon}}</mat-icon>
+    <mat-card-actions align="end">
+        <button mat-icon-button [color]="buttonColor" [matTooltip]="buttonTooltip" (click)="handleAction()">
+            <mat-icon>{{ buttonIcon }}</mat-icon>
         </button>
-    </div>
+    </mat-card-actions>
 </mat-card>
