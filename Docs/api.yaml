@@ -85,6 +85,19 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TravelItem'
+  /createBasket:
+    post:
+      summary: create new basket
+      responses:
+        '200':
+          description: the Id of the basket
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/CreateBasket'
+
   
   /addToBasket:
     post:
@@ -193,3 +206,9 @@ components:
         percentage:
           type: "integer"
           format: "int32"
+    CreateBasket:
+      type: object
+      properties:
+        BasketId:
+          type: "string"
+          example: "bf8e97ea-c46a-46d8-9c88-3b5289d0df25"
