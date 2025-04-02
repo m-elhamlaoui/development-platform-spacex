@@ -10,6 +10,7 @@ import com.ensias.spacex.model.Travel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,5 +40,9 @@ public class BasketService {
 
     public CreateBasketReplyDto createNewBasket() {
         return new CreateBasketReplyDto(basketRepository.createBasket());
+    }
+
+    public List<Travel> getBasket(String basketId) throws BasketNotFoundException {
+       return basketRepository.getBasket(basketId).getTravels();
     }
 }

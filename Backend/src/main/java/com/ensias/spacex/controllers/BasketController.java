@@ -4,14 +4,13 @@ import com.ensias.spacex.DTO.BasketRequestDto;
 import com.ensias.spacex.DTO.CreateBasketReplyDto;
 import com.ensias.spacex.Exceptions.BasketNotFoundException;
 import com.ensias.spacex.Exceptions.TravelNotFoundException;
+import com.ensias.spacex.model.Travel;
 import com.ensias.spacex.service.BasketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -26,9 +25,10 @@ public class BasketController {
 
     // POST /api/v1/addToBasket
     @PostMapping("/addToBasket")
-    public void addToBasket(@RequestBody BasketRequestDto request) {
+    public List<Travel> addToBasket(@RequestBody BasketRequestDto request) {
         try {
             basketService.addToBasket(request);
+            return basketService.getBasket(request.getBasketId());
         } catch (BasketNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "your basket cannot be found :/"
@@ -42,9 +42,10 @@ public class BasketController {
 
     // POST /api/v1/removeFromBasket
     @PostMapping("/removeFromBasket")
-    public void removeFromBasket(@RequestBody BasketRequestDto request) {
+    public List<Travel> removeFromBasket(@RequestBody BasketRequestDto request) {
         try {
             basketService.removeFromBasket(request);
+            return basketService.getBasket(request.getBasketId());
         } catch (BasketNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "your basket cannot be found :/"

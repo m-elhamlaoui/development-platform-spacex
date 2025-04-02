@@ -16,7 +16,11 @@ public class Basket {
     public void removeTravelById(Long travelId) throws TravelNotFoundException{
         boolean removed = travels.removeIf(t -> t.getId().equals(travelId));
         if(!removed){
-            throw new TravelNotFoundException();
-        }
+        throw new TravelNotFoundException();
         }
     }
+
+    public List<Travel> getTravels(){
+        return this.travels;
+    }
+}
