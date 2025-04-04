@@ -85,6 +85,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TravelItem'
+  /createBasket:
+    post:
+      summary: create new basket
+      responses:
+        '200':
+          description: the Id of the basket
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBasket'
+
   
   /addToBasket:
     post:
@@ -96,16 +107,21 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: integer
-                  example: 125
+                basketId:
+                  type: "String"
+                  example: "bf8e97ea-c46a-46d8-9c88-3b5289d0df25"
+                travelId:
+                  type: "integer"
+                  example: 1
       responses:
         '200':
           description: Travel added to basket
           content:
             application/json:
               schema:
-                type: object
+                type: array
+                items:
+                  $ref: '#/components/schemas/TravelItem'
 
   /removeFromBasket:
     post:
@@ -117,20 +133,35 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: integer
-                  example: 125
+                basketId:
+                  type: "String"
+                  example: "bf8e97ea-c46a-46d8-9c88-3b5289d0df25"
+                travelId:
+                  type: "integer"
+                  example: 1
       responses:
         '200':
           description: Travel removed from basket
           content:
             application/json:
               schema:
-                type: object
+                type: array
+                items:
+                  $ref: '#/components/schemas/TravelItem'
   
   /getBasket:
-    get:
+    post:
       summary: Get the user's travel basket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                basketId:
+                  type: "String"
+                  example: "bf8e97ea-c46a-46d8-9c88-3b5289d0df25"
       responses:
         '200':
           description: A list of travels in the basket
@@ -193,3 +224,9 @@ components:
         percentage:
           type: "integer"
           format: "int32"
+    CreateBasket:
+      type: object
+      properties:
+        BasketId:
+          type: "string"
+          example: "bf8e97ea-c46a-46d8-9c88-3b5289d0df25"
