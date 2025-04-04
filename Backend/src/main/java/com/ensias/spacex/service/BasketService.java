@@ -1,6 +1,6 @@
 package com.ensias.spacex.service;
 
-import com.ensias.spacex.DTO.BasketRequestDto;
+import com.ensias.spacex.DTO.BasketRequestAddDelDto;
 import com.ensias.spacex.DTO.CreateBasketReplyDto;
 import com.ensias.spacex.Exceptions.BasketNotFoundException;
 import com.ensias.spacex.Exceptions.TravelNotFoundException;
@@ -25,7 +25,7 @@ public class BasketService {
         this.basketRepository = basketRepository;
     }
 
-    public void addToBasket(BasketRequestDto request) throws BasketNotFoundException ,TravelNotFoundException {
+    public void addToBasket(BasketRequestAddDelDto request) throws BasketNotFoundException ,TravelNotFoundException {
         Optional<Travel> optTravel = travelRepository.findById(request.getTravelId());
         if(optTravel.isPresent()){
             basketRepository.getBasket(request.getBasketId()).addTravel(optTravel.get());
@@ -34,7 +34,7 @@ public class BasketService {
         }
     }
 
-    public void removeFromBasket(BasketRequestDto request) throws BasketNotFoundException, TravelNotFoundException {
+    public void removeFromBasket(BasketRequestAddDelDto request) throws BasketNotFoundException, TravelNotFoundException {
        basketRepository.getBasket(request.getBasketId()).removeTravelById(request.getTravelId());
     }
 

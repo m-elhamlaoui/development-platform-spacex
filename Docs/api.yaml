@@ -150,8 +150,18 @@ paths:
                   $ref: '#/components/schemas/TravelItem'
   
   /getBasket:
-    get:
+    post:
       summary: Get the user's travel basket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                basketId:
+                  type: "String"
+                  example: "bf8e97ea-c46a-46d8-9c88-3b5289d0df25"
       responses:
         '200':
           description: A list of travels in the basket

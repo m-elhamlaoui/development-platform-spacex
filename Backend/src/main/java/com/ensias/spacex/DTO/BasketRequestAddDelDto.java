@@ -1,5 +1,6 @@
 package com.ensias.spacex.DTO;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BasketRequestDto {
+public class BasketRequestAddDelDto {
     private String basketId;
+    private Long travelId;
 }
