@@ -14,7 +14,7 @@ public class Travel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "idw", nullable = false)
+    @Column
     private Long id;
 
     @Column

@@ -1,0 +1,24 @@
+<mat-card class="travel-card">
+    <div class="card-content">
+        <div class="route">
+            <span class="origin">{{origin}}</span>
+            <span class="arrow">→</span>
+            <span class="destination">{{destination}}</span>
+        </div>
+        <div class="price">{{price}}</div>
+    </div>
+
+    <div class="dates">
+        <span class="departure-date">{{departureDate}}</span>
+        <span class="arrow">→</span>
+        <span class="arrival-date">{{arrivalDate}}</span>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="action-buttons">
+        <button *ngFor="let button of actionButtons" mat-icon-button [matTooltip]="button.tooltip || ''"
+            (click)="onButtonClick(button.action)">
+            <mat-icon>{{button.icon}}</mat-icon>
+        </button>
+    </div>
+</mat-card>
