@@ -1,0 +1,146 @@
+/*.hero-section {
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    transition: background-image 1s ease-in-out;
+  }*/
+.hero-section {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .hero-section img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* ajuste ici l'opacité */
+    z-index: 1;
+  }
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+.search-message {
+    position: absolute;
+    top: 20%; 
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 2; 
+    width: 80%;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+.search-message h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 30px;
+    color: white;
+    text-transform: uppercase; 
+    padding: 15px 25px;
+}
+.search-message-alt {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 2;
+    width: 50%;
+}
+
+.search-message-alt h3 {
+    font-family: 'Roboto', sans-serif; 
+    font-size: 20px;
+    color: rgb(0, 0, 0); 
+    padding: 12px 22px;
+    border-radius: 12px;
+}
+.search-container {
+    position: absolute;
+    z-index: 1;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 50px 60px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    min-width: 500px; 
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.search-container label {
+    font-size: 14px;
+    color: #ffffff;
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'Orbitron', sans-serif;
+
+}
+.search-container select {
+    font-family: 'Orbitron', sans-serif;
+    width: 180px;
+    padding: 8px 5px;
+    font-size: 14px;
+    color: white;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.6); 
+    outline: none;
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .search-container select:focus {
+    border-bottom: 2px solid white; 
+  }
+  
+  .search-container option {
+    color: black; 
+  }
+.search-container button {
+    padding: 10px 20px;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.5); 
+        cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .search-container button:hover {
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.8); 
+    animation: bounce 0.4s ease-in-out;
+  }

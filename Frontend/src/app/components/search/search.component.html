@@ -1,1 +1,44 @@
-<app-scene></app-scene>
+<!--<div class="hero-section" [ngStyle]="{'background-image': 'url(' + currentImage + ')'}">-->
+
+<div class="hero-section">
+    <div class="overlay"></div>
+    <img src="assets/spacex2.jpg" alt="Travel Planet Background">
+  </div>
+  <div class="search-message">
+    <h1>dès maintenant !</h1>
+  </div>
+  <div class="search-message-alt">
+    <h3>Explorez de nouvelles galaxies et réservez votre voyage spatial !</h3>
+  </div>
+  <div class="search-container">
+   
+    <label>Départ</label>
+    <select [(ngModel)]="departure">
+        @for (planet of planetOptions; track planet) {
+            <option [value]="planet">{{ planet }}</option>
+        }
+    </select>
+    <label>Arrivé</label>
+    <select [(ngModel)]="arrive">
+        @for (planet of planetOptions; track planet) {
+            <option [value]="planet">{{ planet }}</option>
+        }
+    </select>
+
+    <button (click)="onSearch()">Rechercher</button>
+</div>
+
+<!-- to be changed-->
+
+@for (result of results; track result) {
+    <div>
+        <h3>Résultats :</h3>
+        <h4>{{ result.depart }} -----------> {{ result.arrive }}</h4>
+        <p><strong>prix :</strong> {{ result.prix }} € </p>
+        <p><strong>date de départ :</strong> {{ result.dateDepart }}</p>
+        <p><strong>Durée :</strong> {{ result.dateArrivee }}</p>
+    </div>
+} @empty {
+
+}
+

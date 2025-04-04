@@ -1,16 +1,11 @@
 <nav class="navbar">
-    <div class="icon-button logo" [routerLink]="'/home'">SpaceX</div>
+    <div class="logo" [routerLink]="'/home'">SpaceX</div>
     <div class="spacer"></div>
-
-    <button class="icon-button" aria-label="list" [routerLink]="'/liste_voyages'">
-        <span class="material-icons">menu_book</span>
-    </button>
-
-    <button class="icon-button" aria-label="search" [routerLink]="'/recherche'">
-        <span class="material-icons">search</span>
-    </button>
-
-    <button class="icon-button" aria-label="basket" [routerLink]="'/réservation'">
-        <span class="material-icons">shopping_cart</span>
-    </button>
-</nav>
+  
+    <ul class="nav-links">
+      <li><a [routerLink]="'/liste_voyages'" class="voyages-link">Voyages</a></li>
+      <li><a [routerLink]="'/recherche'" class="recherche-link">Recherche</a></li>
+      <li><a [routerLink]="'/réservation'" class="reservation-link">Réservation</a></li>
+    </ul>
+  </nav>
+  
