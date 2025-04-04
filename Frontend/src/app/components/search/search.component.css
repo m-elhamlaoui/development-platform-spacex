@@ -1,0 +1,86 @@
+app-scene {
+    position: fixed; /* Pour s'assurer qu'il couvre toute la fenêtre */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+.search-container {
+    position: absolute;
+    z-index: 1;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 25px 30px;
+    background-color: rgba(46, 43, 43, 0.48); /* Noir semi-transparent */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    min-width: 500px;
+}
+
+.search-container label {
+    font-size: 14px;
+    color: white;
+    text-transform: uppercase;
+}
+
+.search-container select {
+    padding: 10px;
+    border: 2px solid #6722a8;
+    border-radius: 8px;
+    font-size: 14px;
+    color: white;
+    background-color: #222;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    min-width: 130px;
+    letter-spacing: 1px;
+}
+
+.search-container select:focus {
+    border-color: #9b59b6;
+    background-color: #333;
+    outline: none;
+}
+
+.search-container button {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.search-container button:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(106, 17, 203, 0.5);
+}
+
+
+.success-snackbar {
+    background-color: #0c430f;
+    color: white;
+}
+
+.error-snackbar {
+    background-color: #81211a;
+    color: white;
+}
+
+.info-snackbar {
+    background-color: #0d4470;
+    color: white;
+}
+
+
