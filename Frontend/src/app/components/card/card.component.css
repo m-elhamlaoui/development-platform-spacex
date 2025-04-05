@@ -1,47 +1,52 @@
 .travel-card {
-    width: 280px;
-    margin: 16px;
-    transition: transform 0.2s ease;
+  font-family: 'Orbitron', sans-serif;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid white;
+  border-radius: 8px;
+  padding: 25px;
+  color: white;
+  transition: all 0.3s ease;
 }
 
-.travel-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-mat-card-header {
-    padding-bottom: 16px;
-}
-
-mat-card-title {
-    font-size: 1.2em;
-    font-weight: 500;
-}
-
-mat-card-subtitle {
-    display: flex;
-    align-items: center;
-    margin-top: 8px;
-}
-
-.date {
-    font-size: 0.9em;
-}
-
-mat-icon[mat-card-subtitle] {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-    margin: 0 4px;
+.route {
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .price {
-    font-size: 1.3em;
-    color: #3f51b5;
-    font-weight: bold;
-    margin: 8px 0;
+  font-size: 13px;
+  color: white;
+  margin-top: 8px;
 }
 
-mat-card-actions {
-    padding: 0 16px 16px 0 !important;
+.dates {
+  font-size: 12px;
+  color: white;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.arrow {
+  font-size: 18px;
+  color: white;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.travel-card:hover {
+  background-color: rgba(255, 255, 255, 0.563);
+  border-color: rgba(255, 255, 255, 0.7);
 }

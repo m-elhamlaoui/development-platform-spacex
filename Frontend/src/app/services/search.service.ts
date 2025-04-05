@@ -14,6 +14,12 @@ export class SearchService {
     }
 
     search(searchDto: SearchDto): Observable<SearchReplyDto[]> {
+<<<<<<< HEAD
         return this.http.post<SearchReplyDto[]>(this.searchEndpoint, searchDto);
     }
+=======
+        return this.http.post<SearchReplyDto[]>(this.searchEndpoint, searchDto||{});
+    }
+
+>>>>>>> newStyle
 }

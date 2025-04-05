@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class CardComponent {
   @Input() origin: string = '';
   @Input() destination: string = '';
-  @Input() price: string = '';
+  @Input() price: number = 0;
   @Input() departureDate: string = '';
   @Input() arrivalDate: string = '';
   @Input() travelId!: number;
