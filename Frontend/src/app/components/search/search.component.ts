@@ -5,14 +5,16 @@ import {SearchReplyDto} from "../../DTO/searchReply.dto";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {SearchDto} from "../../DTO/search.dto";
 import {Planet} from "../../enums/planet.enum";
+import { CardComponent } from "../card/card.component";
 
 @Component({
     selector: 'app-search',
     standalone: true,
-    imports: [   
-        FormsModule,
-        MatSnackBarModule
-    ],
+    imports: [
+    FormsModule,
+    MatSnackBarModule,
+    CardComponent
+],
     templateUrl: './search.component.html',
     styleUrl: './search.component.css'
 })

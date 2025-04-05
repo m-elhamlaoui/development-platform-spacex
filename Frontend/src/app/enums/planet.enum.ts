@@ -1,9 +1,9 @@
 export enum Planet {
-    Jupiter = 'jupiter',
-    Mars = 'mars',
+    JUP = 'JUP',
+    MRS = 'MRS',
     Mercure = 'mercure',
     Neptune = 'neptune',
-    Terre = 'terre',
+    TRR = 'TRR',
     Uranus = 'uranus',
     Venus = 'venus'
 }

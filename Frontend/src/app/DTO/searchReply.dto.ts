@@ -3,5 +3,5 @@ export class SearchReplyDto {
     arrive = "";
     dateDepart = "";
     dateArrivee = "";
-    prix = null;
+    prix = 0;
 }
