@@ -29,15 +29,17 @@
 </div>
 
 <!-- to be changed-->
+<div class="travel-cards">
 
 @for (result of results; track result) {
-    <div>
-        <h3>Résultats :</h3>
-        <h4>{{ result.depart }} -----------> {{ result.arrive }}</h4>
-        <p><strong>prix :</strong> {{ result.prix }} € </p>
-        <p><strong>date de départ :</strong> {{ result.dateDepart }}</p>
-        <p><strong>Durée :</strong> {{ result.dateArrivee }}</p>
-    </div>
+    <app-card 
+    [origin]="result.depart"
+    [destination]="result.arrive"
+    [departureDate]="result.dateDepart"
+    [arrivalDate]="result.dateArrivee"
+    [price]="result.prix"
+  >
+  </app-card>
 } @empty {
 
 }

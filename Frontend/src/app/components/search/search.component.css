@@ -25,9 +25,12 @@
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* ajuste ici l'opacité */
+    background-color: rgba(0, 0, 0, 0.4); 
     z-index: 1;
   }
+.travel-cards{
+  z-index: 3;
+}
 @keyframes fadeInUp {
     from {
         opacity: 0;
