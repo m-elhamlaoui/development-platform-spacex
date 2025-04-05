@@ -13,8 +13,12 @@
     </mat-card-content>
 
     <mat-card-actions align="end">
-        <button mat-icon-button [color]="buttonColor" [matTooltip]="buttonTooltip" (click)="handleAction()">
-            <mat-icon>{{ buttonIcon }}</mat-icon>
-        </button>
+        <ng-container *ngFor="let button of actionButtons">
+            <button mat-icon-button [color]="button.color || 'primary'" [matTooltip]="button.tooltip || ''"
+                (click)="onButtonClick(button.action)">
+                <mat-icon>{{ button.icon }}</mat-icon>
+            </button>
+        </ng-container>
+
     </mat-card-actions>
 </mat-card>

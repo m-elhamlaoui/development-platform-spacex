@@ -24,15 +24,18 @@ export class CardComponent {
   @Input() price: string = '';
   @Input() departureDate: string = '';
   @Input() arrivalDate: string = '';
+  @Input() travelId!: number;
   @Input() actionButtons: {
     icon: string;
     action: string;
     tooltip?: string;
   }[] = [];
 
-  @Output() buttonClick = new EventEmitter<string>();
+  @Output() buttonClick = new EventEmitter<{ action: string; travelId: number }>();
+
 
   onButtonClick(action: string): void {
-    this.buttonClick.emit(action);
+    this.buttonClick.emit({ action, travelId: this.travelId });
   }
+
 }
