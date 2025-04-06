@@ -1,11 +1,8 @@
 export class SearchReplyDto {
+    id = 0;
     depart = "";
     arrive = "";
     dateDepart = "";
     dateArrivee = "";
-<<<<<<< HEAD
-    prix = null;
-=======
     prix = 0;
->>>>>>> newStyle
 }
