@@ -1,70 +1,53 @@
-/* Parent wrapper: centers the container in both directions */
+/* Centers the card both horizontally and vertically */
 .payment-wrapper {
     display: flex;
-    justify-content: center;  /* centers horizontally */
-    align-items: center;      /* centers vertically */
-    min-height: 100vh;        /* make wrapper fill full browser height */
-    margin: 0;                /* reset default body margins if needed */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* fill entire viewport height */
+    margin: 0;        /* reset default body margins, if necessary */
 }
 
-/* Payment container: your existing styling */
+/* Material card dimensions */
 .payment-container {
+    width: 600px;
+}
+
+/* Use flex layout to split the card horizontally */
+.payment-content {
     display: flex;
     flex-direction: row;
-    width: 600px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    overflow: hidden;
+    padding: 16px; /* spacing inside the card */
 }
 
-/* Sidebar section */
+/* Sidebar styling */
 .sidebar {
     width: 40%;
-    background-color: #f8f8f8;
-    padding: 20px;
-    box-sizing: border-box;
+    padding-right: 16px;
     border-right: 1px solid #ddd;
 }
 
 .sidebar h2 {
-    margin-top: 0;
+    margin: 0 0 16px;
 }
 
 .amount-display {
     font-size: 24px;
     font-weight: bold;
-    margin-top: 10px;
 }
 
-/* Payment form section */
+/* Payment form styling */
 .payment-form {
     width: 60%;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.payment-form h2 {
-    margin-top: 0;
-}
-
-.form-group {
-    margin-bottom: 15px;
+    padding-left: 16px;
     display: flex;
     flex-direction: column;
 }
 
-.form-group label {
-    margin-bottom: 5px;
-    font-weight: 600;
+.payment-form h2 {
+    margin: 0 0 16px;
 }
 
-.form-group input {
-    padding: 8px;
-    font-size: 14px;
-}
-
-button[type="submit"] {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
 }
