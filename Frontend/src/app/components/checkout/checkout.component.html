@@ -1,0 +1,71 @@
+<!-- Wrap your container in a parent element that will do the centering -->
+<div class="payment-wrapper">
+    <div class="payment-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Payment Amount</h2>
+            <div class="amount-display">
+                {{ payment.amount | currency:'USD': 'symbol' }}
+            </div>
+        </div>
+
+        <!-- Payment Form -->
+        <div class="payment-form">
+            <h2>Enter Card Details</h2>
+            <form (ngSubmit)="onSubmit()" #paymentForm="ngForm">
+                <!-- Card Holder Name -->
+                <div class="form-group">
+                    <label for="cardHolderName">Card Holder Name</label>
+                    <input
+                            type="text"
+                            id="cardHolderName"
+                            name="cardHolderName"
+                            [(ngModel)]="payment.cardHolderName"
+                            required
+                    />
+                </div>
+
+                <!-- Card Number -->
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input
+                            type="text"
+                            id="cardNumber"
+                            name="cardNumber"
+                            [(ngModel)]="payment.cardNumber"
+                            required
+                    />
+                </div>
+
+                <!-- Expiration Date -->
+                <div class="form-group">
+                    <label for="expDate">Expiry Date (MM/YY)</label>
+                    <input
+                            type="text"
+                            id="expDate"
+                            name="expDate"
+                            [(ngModel)]="payment.expDate"
+                            placeholder="MM/YY"
+                            required
+                    />
+                </div>
+
+                <!-- CVV -->
+                <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input
+                            type="text"
+                            id="cvv"
+                            name="cvv"
+                            [(ngModel)]="payment.cvv"
+                            maxlength="4"
+                            required
+                    />
+                </div>
+
+                <!-- Submit -->
+                <button type="submit">Pay</button>
+            </form>
+        </div>
+    </div>
+</div>
