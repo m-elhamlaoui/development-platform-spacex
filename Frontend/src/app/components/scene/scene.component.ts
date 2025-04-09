@@ -1,6 +1,8 @@
 import {Component, ElementRef, ViewChild, OnDestroy, NgZone, AfterViewInit, OnInit} from '@angular/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import {CubeTextureLoader} from "three";
+
 
 
 interface Trip {
@@ -48,6 +50,8 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
   private renderer!: THREE.WebGLRenderer;
   private clock!: THREE.Clock;
   private controls!: OrbitControls; // For user camera control
+  private loader!:CubeTextureLoader ;
+
 
   private sun!: THREE.Mesh;
   private planetObjects: Map<string, { mesh: THREE.Mesh; pivot: THREE.Object3D }> = new Map();
@@ -195,6 +199,18 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
 
   // --- Scene Creation ---
   private createSolarSystem(): void {
+    // stars (Background)
+    this.loader = new THREE.CubeTextureLoader();
+    const texture = this.loader.load( [
+      'stars.jpg',
+      'stars.jpg',
+      'stars.jpg',
+      'stars.jpg',
+      'stars.jpg',
+      'stars.jpg',
+    ]);
+    this.scene.background = texture;
+
     // --- Sun ---
     const textureLoader = new THREE.TextureLoader();
 
