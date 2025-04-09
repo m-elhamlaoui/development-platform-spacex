@@ -175,13 +175,25 @@ paths:
   /checkOut:
     post:
       summary: Checkout the travel basket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                basketId:
+                  type: "String"
+                  example: "bf8e97ea-c46a-46d8-9c88-3b5289d0df25"
       responses:
         '200':
-          description: Checkout successful
+          description: Travel removed from basket
           content:
             application/json:
               schema:
-                type: object
+                type: array
+                items:
+                  $ref: '#/components/schemas/TravelItem'
 
 components:
   schemas:

@@ -1,0 +1,98 @@
+<!-- Hide this entire payment card if payment is in progress or done -->
+<ng-container *ngIf="!isPaymentInProgress && !isPaymentDone">
+    <div class="payment-wrapper">
+        <mat-card class="payment-container">
+            <div class="payment-content">
+                <!-- Sidebar: Payment Amount -->
+                <div class="sidebar">
+                    <h2>Payment Amount</h2>
+                    <div class="amount-display">
+                        {{ payment.amount | currency:'MAD' }}
+                    </div>
+                </div>
+
+                <!-- Payment Form -->
+                <div class="payment-form">
+                    <h2>Enter Card Details</h2>
+                    <form (ngSubmit)="onSubmit()" #paymentForm="ngForm">
+                        <!-- Card Holder Name -->
+                        <mat-form-field appearance="fill">
+                            <mat-label>Card Holder Name</mat-label>
+                            <input
+                                    matInput
+                                    type="text"
+                                    name="cardHolderName"
+                                    [(ngModel)]="payment.cardHolderName"
+                                    required
+                            />
+                        </mat-form-field>
+
+                        <!-- Card Number -->
+                        <mat-form-field appearance="fill">
+                            <mat-label>Card Number</mat-label>
+                            <input
+                                    matInput
+                                    type="text"
+                                    name="cardNumber"
+                                    [(ngModel)]="payment.cardNumber"
+                                    required
+                            />
+                        </mat-form-field>
+
+                        <!-- Expiry Date (MM/YY) -->
+                        <mat-form-field appearance="fill">
+                            <mat-label>Expiry Date (MM/YY)</mat-label>
+                            <input
+                                    matInput
+                                    type="text"
+                                    name="expDate"
+                                    [(ngModel)]="payment.expDate"
+                                    placeholder="MM/YY"
+                                    required
+                            />
+                        </mat-form-field>
+
+                        <!-- CVV -->
+                        <mat-form-field appearance="fill">
+                            <mat-label>CVV</mat-label>
+                            <input
+                                    matInput
+                                    type="text"
+                                    name="cvv"
+                                    [(ngModel)]="payment.cvv"
+                                    maxlength="4"
+                                    required
+                            />
+                        </mat-form-field>
+
+                        <!-- Submit Button -->
+                        <button mat-raised-button color="primary" type="submit">
+                            Pay
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="isPaymentInProgress">
+    <div class="spinner-wrapper">
+        <mat-progress-spinner
+                mode="indeterminate"
+                diameter="80">
+        </mat-progress-spinner>
+    </div>
+</ng-container>
+
+<!-- Show confirmation card once isPaymentDone is true -->
+<ng-container *ngIf="isPaymentDone">
+    <div class="payment-wrapper">
+        <mat-card class="finished-card">
+            <div class="finish-content">
+                <mat-icon>check_circle</mat-icon>
+                <h2>Payment is done!</h2>
+            </div>
+        </mat-card>
+    </div>
+</ng-container>

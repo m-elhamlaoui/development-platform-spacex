@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @Configuration
@@ -15,8 +16,28 @@ public class LoadData {
     @Bean
     CommandLineRunner initData (TravelRepository repo){
         return args -> {
-            repo.save(new Travel("TRR","MRS",new Date(1715820393000L), new Date(1747836720000L),45000L)); // add a travel to travel list
-            repo.save(new Travel("MRS","JUP",new Date(1745014392000L), new Date(1776550392L),45000L)); // add a travel to
+            Calendar cal = Calendar.getInstance();
+            // Past ended flight
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_MONTH, -14);
+            Date f11date = cal.getTime();
+            cal.add(Calendar.DAY_OF_MONTH, -7);
+            Date f12date = cal.getTime();
+            repo.save(new Travel("TRR", "MRS", f11date, f12date, 45000L));   // started and ended
+            // Past flight not ended
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_MONTH, -7);
+            Date f21date = cal.getTime();
+            cal.add(Calendar.DAY_OF_MONTH, 14);
+            Date f22date = cal.getTime();
+            repo.save(new Travel("MRS", "TRR", f21date, f22date, 45000L));   // started and not ended
+            // future flight
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_MONTH, 7);
+            Date f31date = cal.getTime();
+            cal.add(Calendar.DAY_OF_MONTH, 21);
+            Date f32date = cal.getTime();
+            repo.save(new Travel("MER", "JUP", f31date, f32date, 45000L)); // Future flight
             repo.flush();
         };
     }

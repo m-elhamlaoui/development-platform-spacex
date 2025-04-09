@@ -1,0 +1,70 @@
+/* Centers the card both horizontally and vertically */
+.payment-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* fill entire viewport height */
+    margin: 0;        /* reset default body margins, if necessary */
+}
+
+/* Material card dimensions */
+.payment-container {
+    width: 600px;
+}
+
+/* Use flex layout to split the card horizontally */
+.payment-content {
+    display: flex;
+    flex-direction: row;
+    padding: 16px; /* spacing inside the card */
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 40%;
+    padding-right: 16px;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar h2 {
+    margin: 0 0 16px;
+}
+
+.amount-display {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Payment form styling */
+.payment-form {
+    width: 60%;
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-form h2 {
+    margin: 0 0 16px;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+}
+.spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.finished-card {
+    width: 400px;
+    padding: 24px;
+    text-align: center;
+}
+.finish-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
