@@ -5,6 +5,7 @@ import {CubeTextureLoader} from "three";
 import {TravelService} from "../../services/travel-services.service";
 import {CurrentTravelsReplyDto} from "../../DTO/getCurrentTravels.Reply.dto";
 import {Observable} from "rxjs";
+import {GLTFLoader,GLTF} from 'three/addons/loaders/GLTFLoader.js';
 
 
 
@@ -204,6 +205,10 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
     // --- Lighting ---
     const pointLight = new THREE.PointLight(0xffffee, 6, 200000,0.1); // Color, Intensity, Distance
     this.scene.add(pointLight); // Light originates from the Sun's position (0,0,0)
+
+    const pointLight1 = new THREE.PointLight(0xffffee, 6, 200000,0.1); // Color, Intensity, Distance
+    pointLight1.position.copy(new THREE.Vector3(0, 100, 0));
+    this.scene.add(pointLight1); // Light originates from the Sun's position (0,0,0)
     const ambientLight = new THREE.AmbientLight(0x555555); // Soft ambient light for non-lit areas
     this.scene.add(ambientLight);
 
@@ -303,63 +308,75 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
     const shuttleGeometry = new THREE.ConeGeometry(0.3, 1, 8); // Cone: radius, height, segments
     shuttleGeometry.rotateX(Math.PI / 2); // Orient cone to point along its path
     const shuttleMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Bright red shuttle
-    this.trips.subscribe(results =>{
-      results.forEach((trip, index) => {
-        console.log(trip)
-        const startPlanetName = PLANET_CODES[trip.depart];
-        const endPlanetName = PLANET_CODES[trip.arrive];
 
-        const startPlanetData = this.planetObjects.get(startPlanetName);
-        const endPlanetData = this.planetObjects.get(endPlanetName);
 
-        if (!startPlanetData || !endPlanetData) {
-          console.warn(`Cannot create trip ${index}: Planet data not found for ${trip.depart} or ${trip.arrive}`);
-          return;
-        }
+    const gltfLoader = new GLTFLoader();
+    const url = 'scene.gltf';
 
-        // Get current WORLD positions of the planet meshes
-        const startPos = new THREE.Vector3();
-        startPlanetData.mesh.getWorldPosition(startPos);
 
-        const endPos = new THREE.Vector3();
-        endPlanetData.mesh.getWorldPosition(endPos);
+    gltfLoader.load(url, (gltf) => {
+      const shuttleMesh1 = gltf.scene;
+      //make it smaller
+      shuttleMesh1.scale.set(0.02, 0.02, 0.02);
 
-        // --- Create the Arc (using Quadratic Bezier Curve) ---
-        const distance = startPos.distanceTo(endPos);
-        // Calculate midpoint between planets
-        const midPoint = new THREE.Vector3().addVectors(startPos, endPos).multiplyScalar(0.6);
-        // Calculate control point for the arc (offset upwards from midpoint)
-        // Arc height is proportional to the distance between planets (adjust 0.3 scale factor as needed)
-        const controlPointOffset = distance * 0.3;
-        const controlPos = midPoint.clone().add(new THREE.Vector3(-controlPointOffset, 0, 0));
+      this.trips.subscribe(results =>{
+        results.forEach((trip, index) => {
+          console.log(trip)
+          const startPlanetName = PLANET_CODES[trip.depart];
+          const endPlanetName = PLANET_CODES[trip.arrive];
 
-        const curve = new THREE.QuadraticBezierCurve3(startPos, controlPos, endPos);
-        const points = curve.getPoints(50); // Get points along the curve for the line geometry
-        const arcGeometry = new THREE.BufferGeometry().setFromPoints(points);
-        const arcMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00, linewidth: 2 }); // Bright green arc line
-        const arcLine = new THREE.Line(arcGeometry, arcMaterial);
-        this.scene.add(arcLine);
+          const startPlanetData = this.planetObjects.get(startPlanetName);
+          const endPlanetData = this.planetObjects.get(endPlanetName);
 
-        // --- Create and Position the Shuttle ---
-        const shuttleMesh = new THREE.Mesh(shuttleGeometry, shuttleMaterial);
+          if (!startPlanetData || !endPlanetData) {
+            console.warn(`Cannot create trip ${index}: Planet data not found for ${trip.depart} or ${trip.arrive}`);
+            return;
+          }
 
-        // Calculate position on curve based on percentage (0.0 to 1.0)
-        const percentageNormalized = Math.max(0, Math.min(1, trip.percentage / 100.0)); // Clamp percentage
-        const shuttlePos = curve.getPointAt(percentageNormalized);
-        shuttleMesh.position.copy(shuttlePos);
+          // Get current WORLD positions of the planet meshes
+          const startPos = new THREE.Vector3();
+          startPlanetData.mesh.getWorldPosition(startPos);
 
-        // Orient the shuttle to face along the curve's tangent
-        const tangent = curve.getTangentAt(percentageNormalized).normalize();
-        // Calculate a point slightly ahead on the tangent for lookAt target
-        const lookAtPos = shuttlePos.clone().add(tangent);
-        shuttleMesh.lookAt(lookAtPos);
+          const endPos = new THREE.Vector3();
+          endPlanetData.mesh.getWorldPosition(endPos);
 
-        this.scene.add(shuttleMesh);
+          // --- Create the Arc (using Quadratic Bezier Curve) ---
+          const distance = startPos.distanceTo(endPos);
+          // Calculate midpoint between planets
+          const midPoint = new THREE.Vector3().addVectors(startPos, endPos).multiplyScalar(0.6);
+          // Calculate control point for the arc (offset upwards from midpoint)
+          // Arc height is proportional to the distance between planets (adjust 0.3 scale factor as needed)
+          const controlPointOffset = distance * 0.3;
+          const controlPos = midPoint.clone().add(new THREE.Vector3(-controlPointOffset, 0, 0));
 
-        // Store references to the created arc and shuttle
-        this.tripObjects.push({ arc: arcLine, shuttle: shuttleMesh });
-      });
-    } )
+          const curve = new THREE.QuadraticBezierCurve3(startPos, controlPos, endPos);
+          const points = curve.getPoints(50); // Get points along the curve for the line geometry
+          const arcGeometry = new THREE.BufferGeometry().setFromPoints(points);
+          const arcMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00, linewidth: 2 }); // Bright green arc line
+          const arcLine = new THREE.Line(arcGeometry, arcMaterial);
+          this.scene.add(arcLine);
+
+          // --- Create and Position the Shuttle ---
+          const shuttleMesh = new THREE.Mesh(shuttleGeometry, shuttleMaterial);
+
+          // Calculate position on curve based on percentage (0.0 to 1.0)
+          const percentageNormalized = Math.max(0, Math.min(1, trip.percentage / 100.0)); // Clamp percentage
+          const shuttlePos = curve.getPointAt(percentageNormalized);
+          shuttleMesh1.position.copy(shuttlePos);
+
+          // Orient the shuttle to face along the curve's tangent
+          const tangent = curve.getTangentAt(percentageNormalized).normalize();
+          // Calculate a point slightly ahead on the tangent for lookAt target
+          const lookAtPos = shuttlePos.clone().add(tangent);
+          shuttleMesh1.lookAt(lookAtPos);
+
+          this.scene.add(shuttleMesh1);
+
+          // Store references to the created arc and shuttle
+          this.tripObjects.push({ arc: arcLine, shuttle: shuttleMesh });
+        });
+      } )
+    });
     console.log(`Created ${this.tripObjects.length} trip visualizations.`);
   }
 
