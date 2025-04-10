@@ -5,7 +5,7 @@ import {CubeTextureLoader} from "three";
 import {TravelService} from "../../services/travel-services.service";
 import {CurrentTravelsReplyDto} from "../../DTO/getCurrentTravels.Reply.dto";
 import {Observable} from "rxjs";
-import {GLTFLoader,GLTF} from 'three/addons/loaders/GLTFLoader.js';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 
 
 
@@ -231,8 +231,6 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
       { name: 'Uranus', radius: 1.8, color: 0x7fdbff, orbitRadius: 85 , texture: '/uranus.jpg'},
       { name: 'Neptune', radius: 1.7, color: 0x3d5aff, orbitRadius: 105 , texture: '/neptune.jpg'},
     ];
-
-
 
     // Get current date to calculate approximate static positions
     // Using context provided: Wednesday, April 9, 2025 at 1:50:56 PM +01:00
@@ -468,21 +466,34 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
   
   hoveredTrip: Trip | null = null;
 
+  cachedTripData!:CurrentTravelsReplyDto[] ;
+
 private showTripInfo(index: number): void {
-  this.traveService.getCurrentTravels().subscribe((trips) => {
-    const trip = trips[index];
+  if (this.cachedTripData == null) {
+    this.traveService.getCurrentTravels().subscribe((trips) => {
+      this.cachedTripData = trips
+      const trip = trips[index];
+      this.hoveredTrip = {
+        depart: trip.depart,
+        arrive: trip.arrive,
+        dateDepart: trip.dateDepart,
+        dateArrive: trip.dateArrive,
+        percentage: trip.percentage
+      };
+    });
+  } else {
+    const trip = this.cachedTripData[index];
     this.hoveredTrip = {
       depart: trip.depart,
       arrive: trip.arrive,
       dateDepart: trip.dateDepart,
       dateArrive: trip.dateArrive,
       percentage: trip.percentage
-    };
-  });
+    }
+  }
 }
 
-private hideTripInfo(): void {
-  this.hoveredTrip = null;
-}
-
+  private hideTripInfo(): void {
+      this.hoveredTrip = null;
+    }
 }
