@@ -199,11 +199,8 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
     const textureLoader = new THREE.TextureLoader();
 
     const sunGeometry = new THREE.SphereGeometry(5, 64, 64);
-    const sunMaterial = new THREE.MeshPhongMaterial({
-      color: 0xffff00,        // Base color
-      emissive: 0xffff00,     // Glowing color
-      emissiveIntensity: 1.0, // Adjust glow strength
-      shininess: 10           // A little highlight
+    const sunMaterial = new THREE.MeshBasicMaterial({
+      map: textureLoader.load('/sun.png') 
     });
 
     this.sun = new THREE.Mesh(sunGeometry, sunMaterial);
