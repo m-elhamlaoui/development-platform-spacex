@@ -1,7 +1,10 @@
-import {Component, ElementRef, ViewChild, OnDestroy, NgZone, AfterViewInit, OnInit} from '@angular/core';
+import {Component, ElementRef, ViewChild, OnDestroy, NgZone, AfterViewInit, OnInit, inject} from '@angular/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import {CubeTextureLoader} from "three";
+import {TravelService} from "../../services/travel-services.service";
+import {CurrentTravelsReplyDto} from "../../DTO/getCurrentTravels.Reply.dto";
+import {Observable} from "rxjs";
 
 
 
@@ -28,8 +31,8 @@ const PLANET_CODES: { [key: string]: string } = {
   SUN: 'Sun',
   MER: 'Mercury',
   VEN: 'Venus',
-  EAR: 'Earth',
-  MAR: 'Mars',
+  TRR: 'Earth',
+  MRS: 'Mars',
   JUP: 'Jupiter',
   SAT: 'Saturn',
   URA: 'Uranus',
@@ -51,7 +54,8 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
   private clock!: THREE.Clock;
   private controls!: OrbitControls; // For user camera control
   private loader!:CubeTextureLoader ;
-
+  traveService = inject(TravelService);
+  private trips!:Observable<CurrentTravelsReplyDto[]>;
 
   private sun!: THREE.Mesh;
   private planetObjects: Map<string, { mesh: THREE.Mesh; pivot: THREE.Object3D }> = new Map();
@@ -59,36 +63,6 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
 
   private frameId: number | null = null;
 
-  public trips: Trip[] = [
-    {
-      depart: 'EAR', // Earth
-      arrive: 'MAR', // Mars
-      dateDepart: '2024-01-01T00:00:00Z',
-      dateArrive: '2024-09-01T00:00:00Z',
-      percentage: 55,
-    },
-    {
-      depart: 'MAR',
-      arrive: 'JUP',
-      dateDepart: '2025-03-10T12:00:00Z',
-      dateArrive: '2027-05-20T18:30:00Z',
-      percentage: 15,
-    },
-    {
-      depart: 'JUP',
-      arrive: 'MAR',
-      dateDepart: '2023-08-24T14:15:22Z',
-      dateArrive: '2025-11-02T05:05:15Z',
-      percentage: 71,
-    },
-    {
-      depart: 'SAT',
-      arrive: 'EAR',
-      dateDepart: '2026-01-01T00:00:00Z',
-      dateArrive: '2029-01-01T00:00:00Z',
-      percentage: 30,
-    }
-  ];
 
   // Inject NgZone for running animation loop outside Angular's change detection
   constructor(private ngZone: NgZone) {}
@@ -97,6 +71,7 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.trips = this.traveService.getCurrentTravels();
     this.initThreeJs();
     this.createSolarSystem(); // Create static planets
     this.createTrips();      // Create trip visualizations
@@ -328,61 +303,63 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
     const shuttleGeometry = new THREE.ConeGeometry(0.3, 1, 8); // Cone: radius, height, segments
     shuttleGeometry.rotateX(Math.PI / 2); // Orient cone to point along its path
     const shuttleMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Bright red shuttle
+    this.trips.subscribe(results =>{
+      results.forEach((trip, index) => {
+        console.log(trip)
+        const startPlanetName = PLANET_CODES[trip.depart];
+        const endPlanetName = PLANET_CODES[trip.arrive];
 
-    this.trips.forEach((trip, index) => {
-      const startPlanetName = PLANET_CODES[trip.depart];
-      const endPlanetName = PLANET_CODES[trip.arrive];
+        const startPlanetData = this.planetObjects.get(startPlanetName);
+        const endPlanetData = this.planetObjects.get(endPlanetName);
 
-      const startPlanetData = this.planetObjects.get(startPlanetName);
-      const endPlanetData = this.planetObjects.get(endPlanetName);
+        if (!startPlanetData || !endPlanetData) {
+          console.warn(`Cannot create trip ${index}: Planet data not found for ${trip.depart} or ${trip.arrive}`);
+          return;
+        }
 
-      if (!startPlanetData || !endPlanetData) {
-        console.warn(`Cannot create trip ${index}: Planet data not found for ${trip.depart} or ${trip.arrive}`);
-        return;
-      }
+        // Get current WORLD positions of the planet meshes
+        const startPos = new THREE.Vector3();
+        startPlanetData.mesh.getWorldPosition(startPos);
 
-      // Get current WORLD positions of the planet meshes
-      const startPos = new THREE.Vector3();
-      startPlanetData.mesh.getWorldPosition(startPos);
+        const endPos = new THREE.Vector3();
+        endPlanetData.mesh.getWorldPosition(endPos);
 
-      const endPos = new THREE.Vector3();
-      endPlanetData.mesh.getWorldPosition(endPos);
+        // --- Create the Arc (using Quadratic Bezier Curve) ---
+        const distance = startPos.distanceTo(endPos);
+        // Calculate midpoint between planets
+        const midPoint = new THREE.Vector3().addVectors(startPos, endPos).multiplyScalar(0.6);
+        // Calculate control point for the arc (offset upwards from midpoint)
+        // Arc height is proportional to the distance between planets (adjust 0.3 scale factor as needed)
+        const controlPointOffset = distance * 0.3;
+        const controlPos = midPoint.clone().add(new THREE.Vector3(-controlPointOffset, 0, 0));
 
-      // --- Create the Arc (using Quadratic Bezier Curve) ---
-      const distance = startPos.distanceTo(endPos);
-      // Calculate midpoint between planets
-      const midPoint = new THREE.Vector3().addVectors(startPos, endPos).multiplyScalar(0.5);
-      // Calculate control point for the arc (offset upwards from midpoint)
-      // Arc height is proportional to the distance between planets (adjust 0.3 scale factor as needed)
-      const controlPointOffset = distance * 0.3;
-      const controlPos = midPoint.clone().add(new THREE.Vector3(0, controlPointOffset, 0));
+        const curve = new THREE.QuadraticBezierCurve3(startPos, controlPos, endPos);
+        const points = curve.getPoints(50); // Get points along the curve for the line geometry
+        const arcGeometry = new THREE.BufferGeometry().setFromPoints(points);
+        const arcMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00, linewidth: 2 }); // Bright green arc line
+        const arcLine = new THREE.Line(arcGeometry, arcMaterial);
+        this.scene.add(arcLine);
 
-      const curve = new THREE.QuadraticBezierCurve3(startPos, controlPos, endPos);
-      const points = curve.getPoints(50); // Get points along the curve for the line geometry
-      const arcGeometry = new THREE.BufferGeometry().setFromPoints(points);
-      const arcMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00, linewidth: 2 }); // Bright green arc line
-      const arcLine = new THREE.Line(arcGeometry, arcMaterial);
-      this.scene.add(arcLine);
+        // --- Create and Position the Shuttle ---
+        const shuttleMesh = new THREE.Mesh(shuttleGeometry, shuttleMaterial);
 
-      // --- Create and Position the Shuttle ---
-      const shuttleMesh = new THREE.Mesh(shuttleGeometry, shuttleMaterial);
+        // Calculate position on curve based on percentage (0.0 to 1.0)
+        const percentageNormalized = Math.max(0, Math.min(1, trip.percentage / 100.0)); // Clamp percentage
+        const shuttlePos = curve.getPointAt(percentageNormalized);
+        shuttleMesh.position.copy(shuttlePos);
 
-      // Calculate position on curve based on percentage (0.0 to 1.0)
-      const percentageNormalized = Math.max(0, Math.min(1, trip.percentage / 100.0)); // Clamp percentage
-      const shuttlePos = curve.getPointAt(percentageNormalized);
-      shuttleMesh.position.copy(shuttlePos);
+        // Orient the shuttle to face along the curve's tangent
+        const tangent = curve.getTangentAt(percentageNormalized).normalize();
+        // Calculate a point slightly ahead on the tangent for lookAt target
+        const lookAtPos = shuttlePos.clone().add(tangent);
+        shuttleMesh.lookAt(lookAtPos);
 
-      // Orient the shuttle to face along the curve's tangent
-      const tangent = curve.getTangentAt(percentageNormalized).normalize();
-      // Calculate a point slightly ahead on the tangent for lookAt target
-      const lookAtPos = shuttlePos.clone().add(tangent);
-      shuttleMesh.lookAt(lookAtPos);
+        this.scene.add(shuttleMesh);
 
-      this.scene.add(shuttleMesh);
-
-      // Store references to the created arc and shuttle
-      this.tripObjects.push({ arc: arcLine, shuttle: shuttleMesh });
-    });
+        // Store references to the created arc and shuttle
+        this.tripObjects.push({ arc: arcLine, shuttle: shuttleMesh });
+      });
+    } )
     console.log(`Created ${this.tripObjects.length} trip visualizations.`);
   }
 
