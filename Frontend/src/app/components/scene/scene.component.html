@@ -1,0 +1,11 @@
+<div #rendererContainer class="renderer-container">
+    @if(hoveredTrip){
+    <div id="trip-info" class="trip-info" >
+        <p><strong>De :</strong> {{ hoveredTrip.depart }}</p>
+        <p><strong>À :</strong> {{ hoveredTrip.arrive }}</p>
+        <p><strong>Départ :</strong> {{ hoveredTrip.dateDepart }}</p>
+        <p><strong>Arrivée :</strong> {{ hoveredTrip.dateArrive }}</p>
+        <p><strong>Progression :</strong> {{ hoveredTrip.percentage }}%</p>
+      </div>
+    }
+</div>
