@@ -48,7 +48,10 @@ const PLANET_CODES: { [key: string]: string } = {
 })
 export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
   @ViewChild('rendererContainer', { static: true }) rendererContainer!: ElementRef;
-
+  private raycaster = new THREE.Raycaster();
+  private mouse = new THREE.Vector2();
+  private hoveredTripIndex: number | null = null;
+  
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
@@ -72,12 +75,15 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+
     this.trips = this.traveService.getCurrentTravels();
     this.initThreeJs();
     this.createSolarSystem(); // Create static planets
     this.createTrips();      // Create trip visualizations
     this.animate();          // Start the animation/render loop
     this.setupResizeListener(); // Handle window resize
+    this.renderer.domElement.addEventListener('mousemove', this.onMouseMove.bind(this));
+
   }
 
   ngOnDestroy(): void {
@@ -134,6 +140,8 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
 
     this.removeResizeListener(); // Remove resize listener
     console.log('Three.js scene cleaned up');
+    this.renderer.domElement.removeEventListener('mousemove', this.onMouseMove.bind(this));
+
   }
 
   // --- Initialization ---
@@ -435,4 +443,46 @@ export class SceneComponent implements  OnInit, AfterViewInit, OnDestroy {
   private removeResizeListener(): void {
     window.removeEventListener('resize', this.onWindowResize, false);
   }
+
+  private onMouseMove(event: MouseEvent): void {
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+  
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+  
+    const arcs = this.tripObjects.map(obj => obj.arc);
+    const intersects = this.raycaster.intersectObjects(arcs);
+  
+    if (intersects.length > 0) {
+      const index = arcs.indexOf(intersects[0].object as THREE.Line);
+      if (index !== this.hoveredTripIndex) {
+        this.hoveredTripIndex = index;
+        this.showTripInfo(index);
+      }
+    } else {
+      this.hoveredTripIndex = null;
+      this.hideTripInfo();
+    }
+  }
+  
+  hoveredTrip: Trip | null = null;
+
+private showTripInfo(index: number): void {
+  this.traveService.getCurrentTravels().subscribe((trips) => {
+    const trip = trips[index];
+    this.hoveredTrip = {
+      depart: trip.depart,
+      arrive: trip.arrive,
+      dateDepart: trip.dateDepart,
+      dateArrive: trip.dateArrive,
+      percentage: trip.percentage
+    };
+  });
+}
+
+private hideTripInfo(): void {
+  this.hoveredTrip = null;
+}
+
 }
