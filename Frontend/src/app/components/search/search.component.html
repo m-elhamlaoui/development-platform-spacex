@@ -33,11 +33,11 @@
 
   @for (result of results; track result) {
   <app-card [travel]="{
-      depart: result.depart,
+    id:result.id,      depart: result.depart,
       arrive: result.arrive,
-      departureDate: result.dateDepart,
-      arrivalDate: result.dateArrivee,
-      price: result.prix
+      dateDepart: result.dateDepart,
+      dateArrivee: result.dateArrivee,
+      prix: result.prix
     }" [mode]="'add'" (cardAction)="handleCardAction(result)">
   </app-card>
 

@@ -2,14 +2,14 @@
     <mat-card-header>
         <mat-card-title>{{ travel.depart }} → {{ travel.arrive }}</mat-card-title>
         <mat-card-subtitle>
-            <span class="date">{{ travel.departureDate | date:'shortDate' }}</span>
+            <span class="date">{{ travel.dateDepart | date:'shortDate' }}</span>
             <mat-icon>arrow_right_alt</mat-icon>
-            <span class="date">{{ travel.arrivalDate | date:'shortDate' }}</span>
+            <span class="date">{{ travel.dateArrivee | date:'shortDate' }}</span>
         </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
-        <p class="price">{{ travel.price | currency }}</p>
+        <p class="prix">{{ travel.prix | currency }}</p>
     </mat-card-content>
 
     <mat-card-actions align="end">
