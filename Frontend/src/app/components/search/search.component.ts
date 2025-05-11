@@ -5,7 +5,7 @@ import {SearchService} from "../../services/search.service";
 import {SearchReplyDto} from "../../DTO/searchReply.dto";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {SearchDto} from "../../DTO/search.dto";
-import {Planet} from "../../enums/planet.enum";
+import {Planet,PlanetanetNames} from "../../enums/planet.enum";
 
 @Component({
     selector: 'app-search',
@@ -71,4 +71,6 @@ export class SearchComponent {
             horizontalPosition: 'right',
         })
     }
+
+    protected readonly PlanetanetNames = PlanetanetNames;
 }

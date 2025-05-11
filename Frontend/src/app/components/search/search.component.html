@@ -2,13 +2,13 @@
     <label>Départ</label>
     <select [(ngModel)]="departure">
         @for (planet of planetOptions; track planet) {
-            <option [value]="planet">{{ planet }}</option>
+            <option [value]="planet">{{ PlanetanetNames[planet] }}</option>
         }
     </select>
     <label>Arrivé</label>
     <select [(ngModel)]="arrive">
         @for (planet of planetOptions; track planet) {
-            <option [value]="planet">{{ planet }}</option>
+            <option [value]="planet">{{ PlanetanetNames[planet] }}</option>
         }
     </select>
 
