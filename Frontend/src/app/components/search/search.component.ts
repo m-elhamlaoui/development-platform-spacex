@@ -1,11 +1,12 @@
 import {Component, inject} from '@angular/core';
 import {SceneComponent} from "../scene/scene.component";
 import {FormsModule} from "@angular/forms";
-import {SearchService} from "../../services/search.service";
+import {TravelService} from "../../services/travel.service";
 import {SearchReplyDto} from "../../DTO/searchReply.dto";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {SearchDto} from "../../DTO/search.dto";
 import {Planet,PlanetanetNames} from "../../enums/planet.enum";
+import {CardComponent} from "../card/card.component";
 
 @Component({
     selector: 'app-search',
@@ -13,14 +14,15 @@ import {Planet,PlanetanetNames} from "../../enums/planet.enum";
     imports: [
         SceneComponent,
         FormsModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        CardComponent
     ],
     templateUrl: './search.component.html',
     styleUrl: './search.component.css'
 })
 export class SearchComponent {
     snackBar = inject(MatSnackBar);
-    searchService = inject(SearchService);
+    travelService = inject(TravelService);
     results: SearchReplyDto[] = [];
     departure: string = '';
     arrive: string = '';
@@ -29,6 +31,7 @@ export class SearchComponent {
         depart: '',
         arrive: ''
     };
+    protected readonly PlanetanetNames = PlanetanetNames;
 
     onSearch() {
         if (this.departure === this.arrive) {
@@ -44,7 +47,7 @@ export class SearchComponent {
         if (this.departure && this.arrive) {
             this.searchData.arrive = this.arrive;
             this.searchData.depart = this.departure;
-            this.searchService.search(this.searchData).subscribe(
+            this.travelService.search(this.searchData).subscribe(
                 (data: SearchReplyDto[]) => {
 
                     if (data && data.length > 0) {
@@ -72,5 +75,9 @@ export class SearchComponent {
         })
     }
 
-    protected readonly PlanetanetNames = PlanetanetNames;
+    handleReserver(result: SearchReplyDto) {
+        this.travelService.reserveTrip(result,()=>{
+            this.showSnackBar('trip reserved', 'success');
+        })
+    }
 }
