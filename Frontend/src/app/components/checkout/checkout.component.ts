@@ -9,8 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
 import { MatIconModule } from '@angular/material/icon'; // <-- For the icon
 
 import { PaymentData } from "../../models/CheckoutModel";
-import { CheckoutService } from "../../services/checkout.service";
-import { checkOutPayment } from "../../DTO/checkoutPayment.dto";
+import {BasketService} from "../../services/basket.service";
 
 @Component({
   selector: 'app-checkout',
@@ -36,19 +35,12 @@ export class CheckoutComponent implements OnInit {
   // Flags to control our three states
   isPaymentInProgress = false;
   isPaymentDone = false;
+  price : number = 0;
 
-  paymentService = inject(CheckoutService);
+  basket = inject(BasketService);
 
   ngOnInit(): void {
-    // Example of how you might set up the price from the backend
-    const basket$ = this.paymentService.doCheckout(new checkOutPayment());
-    let price = 0;
-    basket$.subscribe(data => {
-      data.forEach(basketArticle => {
-        price += basketArticle.prix;
-      });
-      this.payment.amount = price;
-    });
+    this.payment.amount = this.basket.getTotalPrice();
   }
 
   onSubmit() {

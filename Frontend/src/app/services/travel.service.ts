@@ -26,8 +26,15 @@ export class TravelService {
         return this.http.get<TripReplyDto[]>(this.GETLISTAPI);
     }
 
+    getReservedTrips():TripReplyDto[]{
+        return this.basket.getList()
+    }
+
     removeTrip(tripinfo: TripReplyDto, callback:()=>void) {
-        return this.http.post<TripReplyDto[]>(this.DELETEAPI, tripinfo).subscribe(newlist => {
+        var payload = new TripReservationRequest();
+        payload.travelId = tripinfo.id;
+        payload.basketId = this.basket.getId();
+        return this.http.post<TripReplyDto[]>(this.DELETEAPI, payload).subscribe(newlist => {
             this.basket.setList(newlist);
             callback();
         })

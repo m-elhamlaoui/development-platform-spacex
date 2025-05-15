@@ -1,0 +1,34 @@
+.list-container {
+    position: absolute;
+    z-index: 1;
+    top: 200px;
+    left: 50%;
+    bottom: 200px;
+    transform: translateX(-50%);
+    padding: 25px 30px;
+    background-color: rgba(46, 43, 43, 0.48);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    min-width: 626px;
+    max-height: 500px;
+}
+
+.list-title{
+    color: aliceblue;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 140px;
+}
+
+.fab-right {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2;
+}

@@ -1,10 +1,21 @@
 /* Centers the card both horizontally and vertically */
 .payment-wrapper {
+    position: absolute;
+    z-index: 1;
+    top: 100px;
+    left: 50%;
+    bottom: 200px;
+    transform: translateX(-50%);
+    padding: 25px 30px;
+    background-color: rgba(46, 43, 43, 0.48);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     display: flex;
+    flex-direction: column;
+    gap: 30px;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* fill entire viewport height */
-    margin: 0;        /* reset default body margins, if necessary */
+    margin: 0;
 }
 
 /* Material card dimensions */
@@ -52,10 +63,22 @@ mat-form-field {
     margin-bottom: 16px;
 }
 .spinner-wrapper {
+    position: absolute;
+    z-index: 1;
+    top: 100px;
+    left: 50%;
+    bottom: 200px;
+    transform: translateX(-50%);
+    padding: 25px 30px;
+    background-color: rgba(46, 43, 43, 0.48);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     display: flex;
+    flex-direction: column;
+    gap: 30px;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    margin: 0;
 }
 .finished-card {
     width: 400px;
