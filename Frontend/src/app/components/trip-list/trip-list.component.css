@@ -17,6 +17,12 @@
 
 }
 
+.scroll{
+    z-index: 1;
+    overflow-y: auto;
+    padding: 25px 30px;
+}
+
 .list-title{
     color: aliceblue;
 }
