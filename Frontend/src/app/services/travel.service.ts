@@ -1,10 +1,10 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {SearchReplyDto} from "../DTO/searchReply.dto";
+import {TripReplyDto} from "../DTO/tripReplyDto";
 import {SearchDto} from "../DTO/search.dto";
-import {BasketCreationModel} from "../models/BasketCreationModel";
 import {TripReservationRequest} from "../models/TripReservationRequest";
+import {BasketService} from "./basket.service";
 
 @Injectable({
     providedIn: 'root'
@@ -12,49 +12,47 @@ import {TripReservationRequest} from "../models/TripReservationRequest";
 
 export class TravelService {
     private SEARCHAPI = "api/v1/searchTravel";
-    private CREATEBASKETAPI='api/v1/createBasket';
+    private GETLISTAPI = "api/v1/exploreTravels"
     private DELETEAPI='api/v1/removeFromBasket';
     private RESERVEAPI='api/v1/addToBasket';
-    ID:BasketCreationModel = new BasketCreationModel();
 
-    constructor(public http: HttpClient) {
+    constructor(public http: HttpClient,private basket:BasketService) {}
+
+    search(searchDto: SearchDto): Observable<TripReplyDto[]> {
+        return this.http.post<TripReplyDto[]>(this.SEARCHAPI, searchDto);
     }
 
-    search(searchDto: SearchDto): Observable<SearchReplyDto[]> {
-        return this.http.post<SearchReplyDto[]>(this.SEARCHAPI, searchDto);
+    getTrips():Observable<TripReplyDto[]> {
+        return this.http.get<TripReplyDto[]>(this.GETLISTAPI);
     }
 
-    removeTrip(tripinfo: SearchReplyDto, callback:()=>void) {
-        return this.http.post(this.DELETEAPI, tripinfo).subscribe(value => {
+    removeTrip(tripinfo: TripReplyDto, callback:()=>void) {
+        return this.http.post<TripReplyDto[]>(this.DELETEAPI, tripinfo).subscribe(newlist => {
+            this.basket.setList(newlist);
             callback();
         })
     }
 
-    async reserveTrip(tripinfo: SearchReplyDto,callback:()=>void) {
+    async reserveTrip(tripinfo: TripReplyDto, callback:()=>void) {
         var payload = new TripReservationRequest();
         payload.travelId = tripinfo.id;
-        if (this.ID.basketId=="") {
-            this.createBasket((basketid) => {
+        if (!this.basket.isSet()) {
+            this.basket.createBasket((basketid) => {
                 payload.basketId = basketid;
-                this.http.post(this.RESERVEAPI, payload).subscribe(value => {
+                this.http.post<TripReplyDto[]>(this.RESERVEAPI, payload).subscribe(value => {
+                    this.basket.setList(value);
                     callback();
                 })
-            });
+            })
         }else {
-            payload.basketId = this.ID.basketId;
-            this.http.post(this.RESERVEAPI, payload).subscribe(value => {
+            payload.basketId = this.basket.getId();
+            this.http.post<TripReplyDto[]>(this.RESERVEAPI, payload).subscribe(value => {
+                this.basket.setList(value);
                 callback();
             })
         }
     }
 
-    createBasket(callback: (id:string) => void){
-        this.http
-            .post<BasketCreationModel>(this.CREATEBASKETAPI, {})
-            .subscribe(v => {
-                this.ID = v;
-                callback(v.basketId);
-            }
-        );
-    }
+
+
 }

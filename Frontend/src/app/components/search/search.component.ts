@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import {SceneComponent} from "../scene/scene.component";
 import {FormsModule} from "@angular/forms";
 import {TravelService} from "../../services/travel.service";
-import {SearchReplyDto} from "../../DTO/searchReply.dto";
+import {TripReplyDto} from "../../DTO/tripReplyDto";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {SearchDto} from "../../DTO/search.dto";
 import {Planet,PlanetanetNames} from "../../enums/planet.enum";
@@ -23,7 +23,7 @@ import {CardComponent} from "../card/card.component";
 export class SearchComponent {
     snackBar = inject(MatSnackBar);
     travelService = inject(TravelService);
-    results: SearchReplyDto[] = [];
+    results: TripReplyDto[] = [];
     departure: string = '';
     arrive: string = '';
     planetOptions = Object.values(Planet);
@@ -48,7 +48,7 @@ export class SearchComponent {
             this.searchData.arrive = this.arrive;
             this.searchData.depart = this.departure;
             this.travelService.search(this.searchData).subscribe(
-                (data: SearchReplyDto[]) => {
+                (data: TripReplyDto[]) => {
 
                     if (data && data.length > 0) {
                         this.results = data;
@@ -75,7 +75,7 @@ export class SearchComponent {
         })
     }
 
-    handleReserver(result: SearchReplyDto) {
+    handleReserver(result: TripReplyDto) {
         this.travelService.reserveTrip(result,()=>{
             this.showSnackBar('trip reserved', 'success');
         })

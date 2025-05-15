@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {SearchReplyDto} from "../../DTO/searchReply.dto";
+import {TripReplyDto} from "../../DTO/tripReplyDto";
 
 @Component({
   selector: 'app-card',
@@ -20,7 +20,7 @@ import {SearchReplyDto} from "../../DTO/searchReply.dto";
   styleUrl: './card.component.css'
 })
 export class CardComponent {
-  @Input() result!:SearchReplyDto;
+  @Input() result!:TripReplyDto;
   @Input() ISreserver:boolean=false;
   @Input() ISdelete:boolean=false;
   @Output() reserver = new EventEmitter<string>();
