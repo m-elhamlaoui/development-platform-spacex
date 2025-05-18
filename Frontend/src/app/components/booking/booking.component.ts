@@ -54,4 +54,7 @@ export class BookingComponent implements OnInit{
   protected checkout(){
     this.router.navigate(['/precessPayment']);
   }
+    navigateToSearch() {
+  this.router.navigate(['/liste_voyages']);
+}
 }
