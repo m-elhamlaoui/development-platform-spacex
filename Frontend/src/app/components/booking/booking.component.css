@@ -1,0 +1,114 @@
+.empty-cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 40px;
+    text-align: center;
+    color: white;
+}
+
+.empty-icon {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.empty-cart h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.empty-cart p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 400px;
+}
+
+.empty-cart button {
+    padding: 10px 24px;
+    font-size: 16px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.empty-cart button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.empty-cart button mat-icon {
+    margin-right: 8px;
+}
+
+.list-container {
+    position: absolute;
+    z-index: 1;
+    top: 100px;
+    left: 50%;
+    bottom: 200px;
+    transform: translateX(-50%);
+    padding: 25px 30px;
+    background-color: rgba(46, 43, 43, 0.48);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    min-width: 1200px;
+    min-height: 500px;
+}
+
+.list-title {
+    color: rgb(255, 255, 255);
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 140px;
+}
+
+.fab-right {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2;
+}
+
+.scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    padding: 10px;
+    max-height: 400px;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+@media (max-width: 768px) {
+    .result-container {
+        min-width: 90%;
+        top: 150px;
+        padding: 15px;
+    }
+    
+    .scroll {
+        max-height: 300px;
+    }
+}

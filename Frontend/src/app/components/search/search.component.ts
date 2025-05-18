@@ -1,11 +1,12 @@
 import {Component, inject} from '@angular/core';
 import {SceneComponent} from "../scene/scene.component";
 import {FormsModule} from "@angular/forms";
-import {SearchService} from "../../services/search.service";
-import {SearchReplyDto} from "../../DTO/searchReply.dto";
+import {TravelService} from "../../services/travel.service";
+import {TripReplyDto} from "../../DTO/tripReplyDto";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {SearchDto} from "../../DTO/search.dto";
-import {Planet} from "../../enums/planet.enum";
+import {Planet,PlanetanetNames} from "../../enums/planet.enum";
+import {CardComponent} from "../card/card.component";
 
 @Component({
     selector: 'app-search',
@@ -13,15 +14,16 @@ import {Planet} from "../../enums/planet.enum";
     imports: [
         SceneComponent,
         FormsModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        CardComponent
     ],
     templateUrl: './search.component.html',
     styleUrl: './search.component.css'
 })
 export class SearchComponent {
     snackBar = inject(MatSnackBar);
-    searchService = inject(SearchService);
-    results: SearchReplyDto[] = [];
+    travelService = inject(TravelService);
+    results: TripReplyDto[] = [];
     departure: string = '';
     arrive: string = '';
     planetOptions = Object.values(Planet);
@@ -29,6 +31,7 @@ export class SearchComponent {
         depart: '',
         arrive: ''
     };
+    protected readonly PlanetanetNames = PlanetanetNames;
 
     onSearch() {
         if (this.departure === this.arrive) {
@@ -44,8 +47,8 @@ export class SearchComponent {
         if (this.departure && this.arrive) {
             this.searchData.arrive = this.arrive;
             this.searchData.depart = this.departure;
-            this.searchService.search(this.searchData).subscribe(
-                (data: SearchReplyDto[]) => {
+            this.travelService.search(this.searchData).subscribe(
+                (data: TripReplyDto[]) => {
 
                     if (data && data.length > 0) {
                         this.results = data;
@@ -69,6 +72,12 @@ export class SearchComponent {
             panelClass: [`snackbar-${type}`],
             verticalPosition: 'top',
             horizontalPosition: 'right',
+        })
+    }
+
+    handleReserver(result: TripReplyDto) {
+        this.travelService.reserveTrip(result,()=>{
+            this.showSnackBar('trip reserved', 'success');
         })
     }
 }

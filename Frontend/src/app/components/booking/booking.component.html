@@ -1,5 +1,30 @@
-
-
-
-
-
+<div class="list-container">
+    <div class="list-title">
+        <h2>Panier</h2>
+    </div>
+    <div class="scroll">
+        @for (result of results; track result) {
+            <div>
+                <app-card [result]="result" [ISdelete]="true" (delete)="handleRetirer(result)"></app-card>
+            </div>
+        }
+        @if (results.length === 0) {
+            <div class="empty-cart">
+                <mat-icon class="empty-icon">remove_shopping_cart</mat-icon>
+                <h3>Votre panier est vide</h3>
+                <p>Explorez nos destinations et commencez à remplir votre panier</p>
+                <button mat-raised-button color="primary" (click)="navigateToSearch()">
+                    <mat-icon>search</mat-icon>
+                    Trouver un voyage
+                </button>
+            </div>
+        }
+    </div>
+    @if (results.length != 0) {
+        <div class="button-container">
+            <button mat-fab class="fab-right" aria-label="Checkout" (click)="checkout()">
+                <mat-icon>shopping_cart_checkout</mat-icon>
+            </button>
+        </div>
+    }
+</div>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {RouterOutlet} from "@angular/router";
 import {SceneComponent} from "./components/scene/scene.component";
+import {MatCardModule} from "@angular/material/card";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import {SceneComponent} from "./components/scene/scene.component";
     imports: [
         NavbarComponent,
         RouterOutlet,
-        SceneComponent
+        SceneComponent,
+        MatCardModule
     ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

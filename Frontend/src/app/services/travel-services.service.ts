@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {SearchDto} from "../DTO/search.dto";
 import {Observable} from "rxjs";
-import {SearchReplyDto} from "../DTO/searchReply.dto";
+import {TripReplyDto} from "../DTO/tripReplyDto";
 import {CurrentTravelsReplyDto} from "../DTO/getCurrentTravels.Reply.dto";
 
 @Injectable({

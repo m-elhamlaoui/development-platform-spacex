@@ -1,31 +1,39 @@
-<div class="search-container">
-    <label>Départ</label>
-    <select [(ngModel)]="departure">
-        @for (planet of planetOptions; track planet) {
-            <option [value]="planet">{{ planet }}</option>
-        }
-    </select>
-    <label>Arrivé</label>
-    <select [(ngModel)]="arrive">
-        @for (planet of planetOptions; track planet) {
-            <option [value]="planet">{{ planet }}</option>
-        }
-    </select>
 
-    <button (click)="onSearch()">Rechercher</button>
+<div class="top-section" [class.with-results]="results.length > 0">
+    @if (results.length === 0) {
+        <div class="search-message">
+            <h1>dès maintenant !</h1>
+        </div>
+        <div class="search-message-alt">
+            <h3>Explorez de nouvelles galaxies et réservez votre voyage spatial !</h3>
+        </div>
+    }
+    
+    <div class="search-container">
+        <label>Départ</label>
+        <select [(ngModel)]="departure">
+            @for (planet of planetOptions; track planet) {
+                <option [value]="planet">{{ planet }}</option>
+            }
+        </select>
+        <label>Arrivée</label>
+        <select [(ngModel)]="arrive">
+            @for (planet of planetOptions; track planet) {
+                <option [value]="planet">{{ planet }}</option>
+            }
+        </select>
+        <button (click)="onSearch()">Rechercher</button>
+    </div>
 </div>
 
-<!-- to be changed-->
-
-@for (result of results; track result) {
-    <div>
-        <h3>Résultats :</h3>
-        <h4>{{ result.depart }} -----------> {{ result.arrive }}</h4>
-        <p><strong>prix :</strong> {{ result.prix }} € </p>
-        <p><strong>date de départ :</strong> {{ result.dateDepart }}</p>
-        <p><strong>Durée :</strong> {{ result.dateArrivee }}</p>
+@if (results.length > 0) {
+    <div class="result-container">
+        <div class="scroll">
+            @for (result of results; track result) {
+                <div>
+                    <app-card [result]="result" [ISreserver]="true" (reserver)="handleReserver(result)"></app-card>
+                </div>
+            }
+        </div>
     </div>
-} @empty {
-
 }
-

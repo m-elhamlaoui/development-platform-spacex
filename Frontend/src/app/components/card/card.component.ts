@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {TripReplyDto} from "../../DTO/tripReplyDto";
 
 @Component({
   selector: 'app-card',
@@ -19,20 +20,27 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrl: './card.component.css'
 })
 export class CardComponent {
-  @Input() origin: string = '';
-  @Input() destination: string = '';
-  @Input() price: string = '';
-  @Input() departureDate: string = '';
-  @Input() arrivalDate: string = '';
-  @Input() actionButtons: {
-    icon: string;
-    action: string;
-    tooltip?: string;
-  }[] = [];
+  @Input() result!:TripReplyDto;
+  @Input() ISreserver:boolean=false;
+  @Input() ISdelete:boolean=false;
+  @Output() reserver = new EventEmitter<string>();
+  @Output() delete = new EventEmitter<string>();
 
-  @Output() buttonClick = new EventEmitter<string>();
+  onReserverClick(): void {
+    this.reserver.emit();
+  }
 
-  onButtonClick(action: string): void {
-    this.buttonClick.emit(action);
+  onDeleteClick():void{
+    this.delete.emit()
+  }
+     calculateDuration(startDate: string | Date, endDate: string | Date): string {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const durationMs = end.getTime() - start.getTime();
+
+    const hours = Math.floor(durationMs / (1000 * 60 * 60));
+    const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
+
+    return `${hours}h ${minutes}m`;
   }
 }

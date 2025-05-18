@@ -1,0 +1,17 @@
+<div class="departures-page">
+    <div class="sidebar">
+        <h2>Voyages disponibles</h2>
+    </div>
+    
+    <div class="departures-main">
+        <div class="departures-container">
+            <div class="departures-list">
+                @for (result of results; track result) {
+                    <div class="departure-item">
+                        <app-card [result]="result" [ISreserver]="true" (reserver)="handleReserver(result)"></app-card>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

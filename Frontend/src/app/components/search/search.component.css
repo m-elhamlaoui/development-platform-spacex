@@ -1,86 +1,239 @@
-app-scene {
-    position: fixed; /* Pour s'assurer qu'il couvre toute la fenêtre */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
 }
 
+.top-section {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  transition: all 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top-section.with-results {
+  top: 0;
+  padding: 20px 0;
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+}
+
+.search-message {
+  text-align: center;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.search-message h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 30px;
+  color: white;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 15px 25px;
+}
+
+.search-message-alt {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.search-message-alt h3 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  color: white;
+  margin: 0;
+  padding: 12px 22px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: inline-block;
+}
+
+/* Conteneur de recherche */
 .search-container {
-    position: absolute;
-    z-index: 1;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 25px 30px;
-    background-color: rgba(46, 43, 43, 0.48); /* Noir semi-transparent */
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    min-width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  margin: 0 20px;
 }
 
 .search-container label {
-    font-size: 14px;
-    color: white;
-    text-transform: uppercase;
+  font-size: 14px;
+  color: #ffffff;
+  display: block;
+  margin-bottom: 5px;
+  font-family: 'Orbitron', sans-serif;
 }
 
 .search-container select {
-    padding: 10px;
-    border: 2px solid #6722a8;
-    border-radius: 8px;
-    font-size: 14px;
-    color: white;
-    background-color: #222;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
-    min-width: 130px;
-    letter-spacing: 1px;
+  font-family: 'Orbitron', sans-serif;
+  width: 180px;
+  padding: 8px 5px;
+  font-size: 14px;
+  color: white;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: border-color 0.3s ease;
 }
 
 .search-container select:focus {
-    border-color: #9b59b6;
-    background-color: #333;
-    outline: none;
+  border-bottom: 2px solid white;
+}
+
+.search-container option {
+  color: black;
+  background: white;
 }
 
 .search-container button {
-    padding: 12px 20px;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  padding: 10px 20px;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-family: 'Orbitron', sans-serif;
+  margin-top: 15px;
 }
 
 .search-container button:hover {
-    background: linear-gradient(135deg, #2575fc, #6a11cb);
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(106, 17, 203, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  animation: bounce 0.4s ease-in-out;
 }
 
-
-.success-snackbar {
-    background-color: #0c430f;
-    color: white;
+.result-container {
+    position: absolute;
+    z-index: 1;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 25px 30px;
+    background-color: rgba(46, 43, 43, 0.48);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    min-width: 626px;
+    max-height: 500px;
+    width: 80%;
 }
 
-.error-snackbar {
-    background-color: #81211a;
-    color: white;
+.scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    padding: 10px;
+    max-height: 400px;
 }
 
-.info-snackbar {
-    background-color: #0d4470;
-    color: white;
+/* Scrollbar stylisée (optionnel) */
+.scroll::-webkit-scrollbar {
+    width: 8px;
 }
 
+.scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
 
+@media (max-width: 768px) {
+    .result-container {
+        min-width: 90%;
+        top: 150px;
+        padding: 15px;
+    }
+    
+    .scroll {
+        max-height: 300px;
+    }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .search-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+  }
+  
+  .search-container select {
+    width: 100%;
+  }
+  
+  .search-message h1 {
+    font-size: 24px;
+  }
+  
+  .search-message-alt h3 {
+    font-size: 16px;
+  }
+  
+  .scroll {
+    grid-template-columns: 1fr;
+  }
+}
+result-container {
+    position: absolute;
+    z-index: 1;
+    top: 200px;
+    left: 50%;
+    bottom: 200px;
+    transform: translateX(-50%);
+    padding: 25px 30px;
+    background-color: rgba(46, 43, 43, 0.48);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    min-width: 626px;
+    max-height: 500px;
+
+}
+
+.scroll{
+    z-index: 1;
+    overflow-y: auto;
+    padding: 25px 30px;
+}
