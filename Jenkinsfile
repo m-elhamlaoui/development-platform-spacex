@@ -14,9 +14,9 @@ pipeline {
             }
         }
 
-        stage('Build with Maven') {
+        stage('Build with Gradle') {
             steps {
-                sh 'gradle jar'
+                sh './gradlew jar'
             }
         }
 
