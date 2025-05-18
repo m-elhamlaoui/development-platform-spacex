@@ -1,35 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: springboot-app
+  name: spacex-app
   labels:
-    app: springboot-app
+    app: spacex-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: springboot-app
+      app: spacex-app
   template:
     metadata:
       labels:
-        app: springboot-app
+        app: spacex-app
     spec:
       containers:
-        - name: springboot-container
-          image: your-dockerhub-username/your-image-name:latest
+        - name: spacex-container
+          image: androgeek/spacex:latest
           ports:
             - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: springboot-service
+  name: spacex-service
 spec:
   selector:
-    app: springboot-app
+    app: spacex-app
   ports:
     - protocol: TCP
-      port: 80
+      port: 8000
       targetPort: 8080
   type: LoadBalancer
 

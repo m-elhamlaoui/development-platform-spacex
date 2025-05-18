@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "your-dockerhub-username/your-image-name"
+        DOCKER_IMAGE = "androgeek/spacex"
         DOCKER_CREDENTIALS_ID = "dockerhub-creds"
         KUBECONFIG = credentials('kubeconfig-creds') // this must be stored in Jenkins as a "Secret file"
     }
@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build with Maven') {
             steps {
-                sh 'gradle '
+                sh 'gradle jar'
             }
         }
 
@@ -58,8 +58,11 @@ pipeline {
 
     post {
         always {
-            sh 'docker logout'
+            script {
+                sh 'docker logout'
+            }
         }
     }
+
 }
 
