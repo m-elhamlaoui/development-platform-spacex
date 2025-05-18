@@ -56,13 +56,7 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            script {
-                sh 'docker logout'
-            }
-        }
-    }
+
 
 }
 
