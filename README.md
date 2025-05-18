@@ -45,7 +45,8 @@ Les API sont exposées par défaut sur le port **8080**.
 
 ce projet combine deux sous projets (springboot - angular) gere par gradle, il est destine a gerer une agence de voyages inter-galactiques, la platforme permet de voir les differents courants, futures voyages ainsi que les reserver
 
-ce projet a pour but de manipuler les technologies etidie au cours : Plates-formes de développement notament 
+Ce projet a pour objectif de mettre en pratique les technologies étudiées au cours Plates-formes de développement, notamment :
+
 - JAKARTA EE (avec Spring framework)
 - JPA (avec H2 et Postgres)
 - EJB (Spring Beans)
