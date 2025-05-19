@@ -21,7 +21,7 @@ pipeline {
 
         stage('Build with Gradle') {
             steps {
-                sh './gradlew buildls '
+                sh './gradlew build '
             }
         }
 

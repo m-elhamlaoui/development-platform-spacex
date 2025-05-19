@@ -18,7 +18,7 @@ spec:
         - name: spacex-container
           image: androgeek/spacex:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 8088
 ---
 apiVersion: v1
 kind: Service
