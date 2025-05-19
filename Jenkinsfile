@@ -13,16 +13,22 @@ pipeline {
             }
         }
 
+        stage('Build Frontend') {
+            steps {
+                sh './gradlew ngbuildProd'
+            }
+        }
+
         stage('Build with Gradle') {
             steps {
-                sh './gradlew jar'
+                sh './gradlew buildls '
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    def jarName = sh(script: "ls target/*.jar | head -n1", returnStdout: true).trim()
+                    def jarName = sh(script: "ls Backend/build/libs/*.jar | head -n1", returnStdout: true).trim()
                     sh "cp ${jarName} app.jar"
                     sh "docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} ."
                 }

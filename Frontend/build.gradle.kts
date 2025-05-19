@@ -76,6 +76,21 @@ tasks.register<NodeTask>("Ngbuild") {
     }
 }
 
+tasks.register<NodeTask>("NgbuildProd") {
+    dependsOn(installAngularUsingNpm)
+    script.set(file("node_modules/@angular/cli/bin/ng.js"))
+    args.set(listOf("build","--configuration","production"))
+    ignoreExitValue.set(false)
+    workingDir.set(projectDir)
+    execOverrides {
+        standardOutput = System.out
+    }
+    inputs.dir("src")
+    outputs.upToDateWhen {
+        false
+    }
+}
+
 
 repositories {
 	mavenCentral()
