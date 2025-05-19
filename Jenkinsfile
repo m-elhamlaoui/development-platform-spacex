@@ -4,7 +4,6 @@ pipeline {
     environment {
         DOCKER_IMAGE = "androgeek/spacex"
         DOCKER_CREDENTIALS_ID = "dockerhub-creds"
-        KUBECONFIG = credentials('kubeconfig-creds') // this must be stored in Jenkins as a "Secret file"
     }
 
     stages {
@@ -47,7 +46,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-creds', variable: 'KUBECONFIG_FILE')]) {
                     sh '''
-                        export KUBECONFIG=$KUBECONFIG_FILE
+                        export KUBECONFIG=/var/lib/jenkins/.kube/config
                         kubectl apply -f deployment.yml
                         kubectl rollout restart deployment/springboot-app
                     '''
