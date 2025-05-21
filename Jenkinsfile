@@ -53,7 +53,7 @@ pipeline {
                     sh '''
                         export KUBECONFIG=/var/lib/jenkins/.kube/config
                         kubectl apply -f deployment.yml
-                        kubectl rollout restart deployment/springboot-app
+                        kubectl rollout restart deployment.apps/spacex-app
                     '''
             }
         }
