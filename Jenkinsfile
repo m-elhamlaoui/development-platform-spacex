@@ -50,13 +50,11 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                withCredentials([file(credentialsId: 'kubeconfig-creds', variable: 'KUBECONFIG_FILE')]) {
                     sh '''
                         export KUBECONFIG=/var/lib/jenkins/.kube/config
                         kubectl apply -f deployment.yml
                         kubectl rollout restart deployment/springboot-app
                     '''
-                }
             }
         }
     }
