@@ -52,7 +52,7 @@ pipeline {
             steps {
                     sh '''
                         export KUBECONFIG=/var/lib/jenkins/.kube/config
-                        kubectl apply -f deployment.yml
+                        kubectl apply -f deployment
                         kubectl rollout restart deployment.apps/spacex-app
                     '''
             }
